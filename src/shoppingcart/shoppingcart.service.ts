@@ -22,9 +22,6 @@ export class ShoppingCartService {
       cart = new this.shoppingCartModel({ googleId, products: [] });
     }
 
-    console.log('🛒 현재 장바구니:', cart.products);
-    console.log('🆕 추가하려는 상품:', product);
-
     // ✅ 같은 UID의 상품이 이미 존재하는지 확인
     const existingProductIndex = cart.products.findIndex(
       (p) => p.uid === product.uid,
@@ -32,7 +29,6 @@ export class ShoppingCartService {
 
     if (existingProductIndex !== -1) {
       // ✅ 기존 상품 업데이트 (새로운 데이터로 교체)
-      console.log('🔄 기존 상품 업데이트');
       cart.products[existingProductIndex] = {
         ...cart.products[existingProductIndex], // 기존 데이터 유지
         ...product, // 새로운 데이터 덮어쓰기
@@ -40,7 +36,6 @@ export class ShoppingCartService {
       };
     } else {
       // ✅ 새로운 상품 추가
-      console.log('➕ 새 상품 추가');
       cart.products = [
         ...cart.products,
         { ...product, quantity: product.quantity || 1 },
@@ -49,8 +44,6 @@ export class ShoppingCartService {
 
     // ✅ 장바구니 저장
     await cart.save();
-    console.log('💾 저장된 장바구니:', cart.products);
-
     return { message: 'Product added/updated in cart', cart };
   }
 
